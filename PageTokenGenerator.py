@@ -1,33 +1,3 @@
-'''
-Generates PageTokens for use with the Youtube Data API v3
-
-A PageToken Consists of:
-
-"C" + b8 + b16 [+ b64 + b64 ] + "{s}AA"
-b8 is a base 8 alphabet etc.
-
-b8 =
-0 -> 127 = 'ABCDEFGH' 
-128 -> ... = 'IJKLMNOP' 
-
-b16 = 
-0 -> 8191 = 'AEIMQUYcgkosw048',  
-8192 -> 16383 = 'BFJNRVZdhlptx159',  
-16384 -> 24575 = 'CGKOSWaeimquy26-'
-24575 -> ... = 'DHLPTXbfjnrvz37_'
-
-s = 
-0 -> 127 = 'Q'
-128 -> 16383 = 'E'
-16383 -> 32767 = 'R'
-32768 -> ?? = 'h'
-
-'''
-
-# Example Usage: Gets the first ten pageTokens for 50 items.
-# for i in range(0, 10):
-#   print(PageTokenGenerator.page_to_token(i, 50))
-
 def number_to_token(number):
     b64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'
 
