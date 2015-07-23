@@ -13,8 +13,61 @@ b8 =
 b16 = 
 0 -> 8191 = 'AEIMQUYcgkosw048',  
 8192 -> 16383 = 'BFJNRVZdhlptx159',  
-16384 -> ... = 'CGKOSWaeimquy26-'
+16384 -> 24575 = 'CGKOSWaeimquy26-'
+24575 -> ... = 'DHLPTXbfjnrvz37_'
+
+s = 
+0 -> 127 = 'Q'
+128 -> 16383 = 'E'
+16383 -> 32767 = 'R'
+32768 -> ?? = 'h'
+
 '''
+
+class PageTokenGenerator:
+    def number_to_token(number):
+        b64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'
+
+        def get_weights(weights, number):
+            res = []
+            n = number
+            for i in weights:
+                q,r = divmod(n,i)
+                res.append( q )
+                n = r
+            return res
+
+        x = get_weights([65536, 16384, 8192, 128, 16, 1], number)
+
+        prefix = 'C'
+
+        b8_offset = 0 if number < 128 else 8
+        b16_offset = (x[2] % 2) + 2
+
+        suffix_pos = (x[1] * 16 + 1) % 64
+        suffix = b64[suffix_pos]
+
+        if (num < 16384):
+            suffix = 'E'
+            b16_offset = 1
+        if (num < 8192):
+            b16_offset = 0
+        if (num < 128):
+            suffix = 'Q'
+
+        token = "{p}{n1}{n2}{n3}{n4}{s}".format(
+            p = prefix,
+            n1 = b64[ x[4] + b8offset ],
+            n2 = b64[ x[5]*4 + b16offset ],
+            n3 = b64[ x[3] ] if number >= 128 else "",
+            n4 = b64[ x[0] ] if number >= 16384 else "",
+            s = suffix + "AA"
+            )
+
+        return token
+
+    def page_to_token(page, max_results):
+        return self.number_to_token(page*maxResults)
 
 
 def numberToToken(number):
@@ -50,9 +103,9 @@ def numberToToken(number):
 
     return token
 
-def getPageToken(page, maxResults=50):
+def getPageToken(page, maxResults):
     return numberToToken(page*maxResults)
 
-# Example Usage: Will first ten pages of 50 items.
+# Example Usage: Gets the first ten pageTokens for 50 items.
 for i in range(0, 10):
-    print(getPageToken(i))
+    print(getPageToken(i, 50))
