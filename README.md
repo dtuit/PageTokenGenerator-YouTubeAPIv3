@@ -1,6 +1,5 @@
 # Page Token Generator YouTubeAPIv3
-Converts integers into their equivelent pageToken and back
-Generates and parses page tokens for use with the YouTube Data API v3.
+Converts integers into and from their equivelent YouTube Data API v3 pageToken.
 
 Verified to generate tokens for items 0 to over 1,000,000 using the following request
 theoretically should work upto 4,194,304
