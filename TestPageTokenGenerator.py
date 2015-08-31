@@ -3,7 +3,7 @@ import PageTokenGenerator
 
 class TestPageTokenGenerator(unittest.TestCase):
 
-	''' indices where the Sequence Changes'''
+	''' some indices where the Sequence Changes'''
 	known_tokens = (
 		(0	  ,"CAAQAA"),
 		(127  ,"CH8QAA"),
@@ -45,14 +45,34 @@ class TestPageTokenGenerator(unittest.TestCase):
 		(98303,"CP__BRAA"),
 		(98304,"CICABhAA"),
 		(98305,"CIGABhAA"),
-		(99999,"CJ-NBhAA")
+		(99999,"CJ-NBhAA"),
+		(106495,"CP-_BhAA"),
+		(106496,"CIDABhAA"),
+		(106497,"CIHABhAA"),
+		(114687,"CP__BhAA"),
+		(114688,"CICABxAA"),
+		(114689,"CIGABxAA"),
+		(122880,"CIDABxAA"),
+		(131072,"CICACBAA"),
+		(163840,"CICAChAA"),
+		(180224,"CICACxAA"),
+		(204800,"CIDADBAA"),
+		(212992,"CICADRAA"),
+		(221184,"CIDADRAA"),
+		(229376,"CICADhAA"),
+		(1064960,"CICAQRAA")
 	)
 
-	def test_correctTokens(self):
+	def test_convert_numbers_correctly_into_tokens(self):
 		''' PageTokenGenerator Should give output known token with known input '''
 		for integer, token in self.known_tokens:
 			result = PageTokenGenerator.number_to_token(integer)
 			self.assertEqual(token, result)
+
+	def test_convert_tokens_correctly_into_numbers(self):
+		for integer, token in self.known_tokens:
+			result = PageTokenGenerator.token_to_number(token)
+			self.assertEqual(integer, result)
 
 if __name__ == '__main__':
     unittest.main()
