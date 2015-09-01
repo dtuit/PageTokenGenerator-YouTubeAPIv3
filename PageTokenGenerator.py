@@ -148,16 +148,3 @@ class token_object:
 			if t not in self.b64:
 				return False
 		return True
-
-# Convert number to Token
-print(number_to_token(50))
-
-# Convert token to number
-print(token_to_number('CDIQAA'))
-
-# Convert prevToken to number
-print(token_to_number('CDIQAQ'))
-
-# Gets the first ten pageTokens for 50 items each.
-for i in range(0, 10):
-    print(number_to_token(i * 50))
